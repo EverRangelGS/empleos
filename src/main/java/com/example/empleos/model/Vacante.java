@@ -58,10 +58,11 @@ public class Vacante {
 		this.imagen = imagen;
 	}
 	
+	
 	@Override
 	public String toString() {
-		return "vacante [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", fecha=" + fecha
-				+ ", salario=" + salario + "]";
+		return "Vacante [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", fecha=" + fecha
+				+ ", salario=" + salario + ", destacado=" + destacado + ", imagen=" + imagen + "]";
 	}
 	
 

@@ -77,4 +77,17 @@ public class VacantesServiceImpl implements IVacantesService {
 		return lista;
 	}
 
+
+	@Override
+	public Vacante buscarPorId(Integer idVacante) {
+
+		for(Vacante v : lista) { //como la lista de vacantes es de tipo 'Vacante', declaramos la variable temporal 'v' de tipo 'Vacante'
+			if(v.getId()==idVacante) {
+				return v;
+			}
+		}
+		
+		return null;
+	}
+
 }
