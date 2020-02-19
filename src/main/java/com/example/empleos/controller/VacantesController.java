@@ -30,9 +30,7 @@ public class VacantesController {
 
 	@GetMapping("/view/{id}")
 	public String verDetalleq(@PathVariable("id") int idVacante, Model model) {
-		
-		Vacante vacante = serviceVacantes.buscarPorId(idVacante);
-		
+		Vacante vacante = serviceVacantes.buscarPorId(idVacante);		
 		System.out.println("Vacante: "+ vacante);
 		model.addAttribute("vacante",vacante);
 		
