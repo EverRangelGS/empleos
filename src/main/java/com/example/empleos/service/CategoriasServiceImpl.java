@@ -10,7 +10,7 @@ import com.example.empleos.model.Categoria;
 @Service("CategoriasServImpl")
 public class CategoriasServiceImpl implements ICategoriaService {
 	
-	List<Categoria> lista = null;
+	private List<Categoria> lista = null;
 	
 	
 	public CategoriasServiceImpl() {
@@ -47,11 +47,18 @@ public class CategoriasServiceImpl implements ICategoriaService {
 		cat5.setNombre("Educacion");
 		cat5.setDescripcion("Maestros, tutores, etc");
 		
+		// Categoria 6
+		Categoria cat6 = new Categoria();
+		cat6.setId(6);
+		cat6.setNombre("Desarrollo de software");
+		cat6.setDescripcion("Trabajo para programadores");
+				
 		lista.add(cat1);
 		lista.add(cat2);
 		lista.add(cat3);
 		lista.add(cat4);
 		lista.add(cat5);
+		lista.add(cat6);
 	}
 	
 

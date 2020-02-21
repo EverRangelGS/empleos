@@ -71,12 +71,12 @@ public class Vacante {
 		this.detalles = detalles;
 	}
 	
+	
 	@Override
 	public String toString() {
 		return "Vacante [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", fecha=" + fecha
 				+ ", salario=" + salario + ", destacado=" + destacado + ", imagen=" + imagen + ", estatus=" + estatus
 				+ ", detalles=" + detalles + "]";
 	}
-	
 
 }

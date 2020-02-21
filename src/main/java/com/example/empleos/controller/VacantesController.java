@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.empleos.model.Vacante;
+import com.example.empleos.service.ICategoriaService;
 import com.example.empleos.service.IVacantesService;
 
 @Controller
@@ -32,6 +33,10 @@ public class VacantesController {
 	@Qualifier("VacantesServImpl")
 	private IVacantesService serviceVacantes;
 	
+	@Autowired
+	@Qualifier("CategoriasServImpl")
+	private ICategoriaService serviceCategorias;
+	
 	
 	@GetMapping("/index")
 	public String mostrarIndex(Model model) {
@@ -41,18 +46,20 @@ public class VacantesController {
 	}
 	
 	@GetMapping("/create")
-	public String crear(Vacante vacante) {
+	public String crear(Vacante vacante, Model model) {
+		model.addAttribute("categorias", serviceCategorias.buscarTodas());
 		return "vacantes/formVacante";
 	}
 	
 	//Con @RequestBody se realiza el DataBinding
 	@PostMapping("/save")
-	public String guardar(Vacante vacante, BindingResult result, RedirectAttributes attributes) {
+	public String guardar(Vacante vacante, BindingResult result, Model model, RedirectAttributes attributes) {
 		
 		if(result.hasErrors()) {
 			for(ObjectError error : result.getAllErrors()) {
 				System.out.println("Ocurrio un error: "+ error.getDefaultMessage());
 			}
+			model.addAttribute("categorias", serviceCategorias.buscarTodas());
 			return "vacantes/formVacante"; 
 		}
 		
