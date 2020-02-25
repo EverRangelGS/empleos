@@ -16,14 +16,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.empleos.model.Vacante;
 import com.example.empleos.service.ICategoriaService;
 import com.example.empleos.service.IVacantesService;
+import com.example.empleos.util.MisPropiedades;
+import com.example.empleos.util.Utileria;
 
 @Controller
 @RequestMapping(value="/vacantes")
@@ -36,6 +38,9 @@ public class VacantesController {
 	@Autowired
 	@Qualifier("CategoriasServImpl")
 	private ICategoriaService serviceCategorias;
+	
+	@Autowired
+	private MisPropiedades propiedades;
 	
 	
 	@GetMapping("/index")
@@ -53,7 +58,7 @@ public class VacantesController {
 	
 	//Con @RequestBody se realiza el DataBinding
 	@PostMapping("/save")
-	public String guardar(Vacante vacante, BindingResult result, Model model, RedirectAttributes attributes) {
+	public String guardar(Vacante vacante, BindingResult result, Model model, RedirectAttributes attributes, @RequestParam("archivoImagen") MultipartFile multiPart) {
 		
 		if(result.hasErrors()) {
 			for(ObjectError error : result.getAllErrors()) {
@@ -61,6 +66,17 @@ public class VacantesController {
 			}
 			model.addAttribute("categorias", serviceCategorias.buscarTodas());
 			return "vacantes/formVacante"; 
+		}
+		
+		//System.out.println("Variable leida de properties: "+ mypathImages);
+
+		if (!multiPart.isEmpty()) {
+			//String ruta = "/empleos/img-vacantes/"; // Linux/MAC
+			//String ruta = "e:/temp-resources/empleos/img-vacantes/"; // Windows
+			String nombreImagen = Utileria.guardarArchivo(multiPart, propiedades.getRutaImagenes());
+			if (nombreImagen != null){ // La imagen si se subio, Procesamos la variable nombreImagen
+				vacante.setImagen(nombreImagen);
+			}
 		}
 		
 		serviceVacantes.guardar(vacante);
@@ -85,6 +101,7 @@ public class VacantesController {
 		//TODO - Buscar los detalles en la base de datos
 		return "detalle";
 	}
+	
 	
 	
 	//Para realizar el Data Binding es necesario indicar con @InitBinder con que formato vendra la fecha a guardar
